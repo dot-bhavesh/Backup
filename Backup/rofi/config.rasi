@@ -1,0 +1,135 @@
+configuration {
+    modi: "drun,run,filebrowser,window";
+    show-icons: true;
+    drun-display-format: "{name} <span size='small' alpha='50%'>({generic})</span>";
+    window-format: "{w}  ·  {c}  ·  {t}";
+    display-drun: "󰵆  Apps";
+    display-run: "󰌑  Run";
+    display-filebrowser: "󰉋  Files";
+    display-window: "󱂬  Windows";
+
+    /* Map Alt+Tab to move down and Alt+Shift+Tab to move up */
+    kb-row-down: "Down,Control+n,Alt+Tab";
+    kb-row-up: "Up,Control+p,Alt+ISO_Left_Tab,Alt+Shift+Tab";
+    kb-accept-entry: "Return,KP_Enter,!Alt_L,!Alt_R";
+}
+
+* {
+    font: "JetBrainsMono Nerd Font 10";
+
+    /* 80% opacity translucent palette */
+    bg:           #111625cc; 
+    surface:      #1a223866; 
+    surface-alt:  #2d3a5e66;
+    selected-bg:  #3d4d7a88;
+    border-blue:  #536b9e;
+    text-main:    #a9c0e4;
+    text-mute:    #5d7199;
+
+    background-color: transparent;
+    text-color: @text-main;
+}
+
+window {
+    transparency: "real";
+    location: center;
+    anchor: center;
+    fullscreen: false;
+    width: 620px;
+    height: 360px;
+
+    border: 1px;
+    border-color: @border-blue;
+    border-radius: 12px;
+    background-color: @bg;
+}
+
+mainbox {
+    padding: 14px;
+    spacing: 14px;
+    orientation: horizontal;
+    children: [ "mode-switcher", "rightbox" ];
+}
+
+/* Sidebar with centered vertical mode buttons */
+mode-switcher {
+    orientation: vertical;
+    spacing: 8px;
+    width: 115px;
+}
+
+button {
+    padding: 10px;
+    border-radius: 8px;
+    background-color: @surface;
+    text-color: @text-main;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}
+
+button selected {
+    background-color: @selected-bg;
+    text-color: #ffffff;
+    border: 1px;
+    border-color: @border-blue;
+}
+
+/* Right content area */
+rightbox {
+    orientation: vertical;
+    spacing: 10px;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    background-color: @surface;
+    border: 1px;
+    border-color: @border-blue;
+    border-radius: 8px;
+    padding: 8px 12px;
+    children: [ "entry" ];
+}
+
+entry {
+    text-color: @text-main;
+    placeholder: "Search...";
+    placeholder-color: @text-mute;
+    vertical-align: 0.5;
+}
+
+listview {
+    columns: 1;
+    lines: 6;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    spacing: 4px;
+}
+
+element {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: transparent;
+}
+
+element normal.normal, element alternate.normal {
+    background-color: transparent;
+    text-color: @text-main;
+}
+
+element selected.normal {
+    background-color: @selected-bg;
+    text-color: #ffffff;
+}
+
+element-icon {
+    size: 20px;
+    margin: 0px 10px 0px 0px;
+    background-color: transparent;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color: inherit;
+    background-color: transparent;
+}
