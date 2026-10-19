@@ -1,0 +1,208 @@
+# i3 config file (v4)
+set $mod Mod1
+
+font pango:JetBrainsMono Nerd Font 9.5
+
+# =========================================================================
+# WINDOW RULES & STRUTS (Must load before apps)
+# =========================================================================
+# Prevent Plank from reserving screen margins (struts)
+for_window [class="Plank"] floating enable, border none, focus_on_window_activation none
+for_window [class="Conky"] floating enable, border none, sticky enable, no_focus
+
+# =========================================================================
+# AUTOSTART BACKGROUND SERVICES & APPLICATIONS
+# =========================================================================
+
+# Automatically alternate horizontal and vertical splits for Fibonacci layout
+exec_always --no-startup-id autotiling &
+
+exec_always --no-startup-id sh ~/.fehbg &
+
+# Wait 1 second for Polybar to draw, then flash all 4 workspaces to register them
+exec_always --no-startup-id "sleep 1 && i3-msg 'workspace 4; workspace 3; workspace 2; workspace 1'"
+
+exec_always --no-startup-id nm-applet
+exec_always --no-startup-id killall redshift redshift-gtk 2>/dev/null; redshift-gtk -l 18.52:73.85 -t 4400:4000
+exec_always --no-startup-id killall xfce4-clipman 2>/dev/null; xfce4-clipman
+#exec_always --no-startup-id feh --bg-fill /home/bhavesh/Desktop/Everything/Wallpaper/upside-down-neon-city.jpg
+
+#exec --no-startup-id picom
+exec_always --no-startup-id bash -c "killall picom 2>/dev/null; sleep 1 && picom -b --backend xrender" &
+
+exec_always --no-startup-id bash -c "killall conky 2>/dev/null; sleep 2 && conky -c ~/.config/conky/conky_i3.conf"
+exec_always --no-startup-id ~/.config/i3/polybar/launch.sh &
+exec_always --no-startup-id setxkbmap -option caps:escape
+exec_always --no-startup-id xrdb -merge ~/.Xresources
+exec_always --no-startup-id xsetroot -cursor_name left_ptr
+
+exec_always --no-startup-id gsettings set org.gnome.desktop.interface gtk-theme 'Dracula'
+exec_always --no-startup-id gsettings set org.gnome.desktop.interface icon-theme 'Tela'
+
+# =========================================================================
+# KEYBINDINGS & NAVIGATION (PRESERVED ORIGINAL)
+# =========================================================================
+# Use Mouse+$mod to drag floating windows
+floating_modifier $mod
+
+#flamshot launcher mode 
+bindsym Shift+Print exec --no-startup-id flameshot launcher
+
+
+# Start terminal
+bindsym $mod+Return exec x-terminal-emulator
+
+# Close focused window (Alt + X)
+bindsym $mod+x kill
+
+# Screenshot utility (Print Screen)
+bindsym Print exec --no-startup-id flameshot gui
+
+# Rofi application launcher (Alt + Space)
+bindsym $mod+space exec --no-startup-id rofi -show drun
+
+# Rofi Power Menu (Ctrl + Alt + L)
+bindsym Control+$mod+l exec --no-startup-id /home/bhavesh/.config/rofi/powermenu.sh
+# Bind Super+Tab to launch Rofi in window switcher mode
+# Launch the Win11 Alt-Tab Grid layout switcher cleanly without errors
+#bindsym $mod+Tab exec --no-startup-id rofi -show window -theme window
+
+# Start web browser with Windows + B
+bindsym Mod4+b exec firefox
+
+# Start file manager with Windows + E
+bindsym --release Mod4+e exec thunar
+
+#task-manager
+bindsym Control+Shift+Escape exec --no-startup-id xfce4-taskmanager
+
+# Change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+
+# Move focused window
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+
+# Direct window resizing (Ctrl + Alt + Left / Right)
+bindsym Control+Mod1+Left resize shrink width 10 px or 10 ppt
+bindsym Control+Mod1+Right resize grow width 10 px or 10 ppt
+
+# =========================================================================
+# NEW DEFAULT i3 MANAGEMENT (Mapped to Ctrl+Alt to avoid key conflicts)
+# =========================================================================
+# Split orientation (Ctrl + Alt + H / V)
+bindsym Control+$mod+h split h
+bindsym Control+$mod+v split v
+
+# Toggle fullscreen mode for active window (Alt + F)
+bindsym $mod+f fullscreen toggle
+
+# Change container layout (Ctrl + Alt + S / T / E)
+bindsym Control+$mod+s layout stacking
+bindsym Control+$mod+t layout tabbed
+bindsym Control+$mod+e layout toggle split
+
+# Toggle floating window mode (Shift + Alt + Space)
+bindsym Shift+$mod+space floating toggle
+
+# Change focus between tiling / floating windows (Ctrl + Alt + D)
+bindsym Control+$mod+d focus mode_toggle
+
+# Focus parent container (Ctrl + Alt + A)
+bindsym Control+$mod+a focus parent
+
+# Window Resizing Mode (Alt + ` to trigger)
+mode "resize" {
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym l resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym h resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+grave mode "default"
+}
+
+bindsym $mod+grave mode "resize"
+
+# =========================================================================
+# WORKSPACES (PERSISTENT OUTPUT BINDINGS ADDED)[cite: 10]
+# =========================================================================
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+
+workspace $ws1 output primary
+workspace $ws2 output primary
+workspace $ws3 output primary
+workspace $ws4 output primary
+
+# Switch to workspace (Script handles the UI updates automatically now)
+bindsym $mod+q workspace $ws1
+bindsym $mod+w workspace $ws2
+bindsym $mod+e workspace $ws3
+bindsym $mod+r workspace $ws4
+
+
+#Move focused container to workspace (Shift + Alt + Q, W, E, R)
+bindsym Shift+$mod+q move container to workspace $ws1
+bindsym Shift+$mod+w move container to workspace $ws2
+bindsym Shift+$mod+e move container to workspace $ws3
+bindsym Shift+$mod+r move container to workspace $ws4
+
+# Reload, Restart, and Exit i3
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+v restart
+bindsym $mod+Shift+Escape exec "i3-nagbar -t warning -m 'Exit i3?' -B 'Yes' 'i3-msg exit'"
+
+# =========================================================================
+# GAPS & MARGINS
+# =========================================================================
+gaps inner 5
+gaps left 3 
+gaps right 3  
+gaps bottom 2
+gaps top 36
+smart_gaps off
+
+# =========================================================================
+# WINDOW BORDERS & THEME STYLING (High-Contrast Cyber-Cyan Variant)
+# =========================================================================
+default_border pixel 2
+default_floating_border pixel 2
+
+#class                  border    backgr.   text      indicator child_border
+client.focused          #678acf   #11111b   #cdd6f4   #678acf   #678acf
+client.unfocused        #2e3e4a   #11111b   #6c7086   #2e3e4a   #2e3e4a
+client.focused_inactive #2e3e4a   #11111b   #6c7086   #2e3e4a   #2e3e4a
+client.urgent           #f38ba8   #11111b   #cdd6f4   #f38ba8   #f38ba8
+
+# Press Ctrl + Alt + W to open your wallpaper picker menu
+bindsym Ctrl+$mod+w exec --no-startup-id ~/.config/rofi/select_wallpaper.sh
+
+
+# Rofi Window Switcher (Alt + Tab)
+bindsym $mod+Tab exec --no-startup-id rofi -show window -theme ~/.config/rofi/config.rasi
