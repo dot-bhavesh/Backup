@@ -7,6 +7,7 @@ Contains dot files of polybar and rofi + wallpapers
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/41578f92-8799-4bf2-9805-63bb01f44669" width="49%" height="300" style="object-fit: cover; vertical-align: middle;" alt="image" />
+  <img src="https://github.com/user-attachments/assets/8f4df440-771e-4c7f-a813-1e6cc35f240f" width="49%" height="300" style="object-fit: cover; vertical-align: middle;" alt="image" />
   <img src="https://github.com/user-attachments/assets/0e8de11a-2e63-4a28-b219-12dd66e3b6c1" width="49%" height="300" style="object-fit: cover; vertical-align: middle;" alt="image" />
 </p>
+
